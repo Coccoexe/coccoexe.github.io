@@ -2,30 +2,36 @@
 <html>
 <head>
   <title>Cutting Problem Solver</title>
-  <style>
-    table {
-      border-collapse: collapse;
-    }
-
-    td {
-      padding: 5px;
-      border: 1px solid black;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-  <h2>Input the Piece Length and Cuts:</h2>
-  <label for="pieceLength">Piece Length:</label>
-  <input type="number" id="pieceLength" placeholder="Piece Length">
-  <br>
-  <h3>Enter cuts in separate lines:</h3>
-  <textarea id="cuts" rows="5" cols="40" placeholder="Enter cuts as 'cut, # of this cut'"></textarea>
-  <br>
-  <button onclick="calculateBins()">Calculate Cuts</button>
+  <div class="container mt-5">
+    <h2>Input the Piece Length and Cuts:</h2>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="pieceLength" class="form-label">Piece Length:</label>
+        <input type="number" class="form-control" id="pieceLength" placeholder="Piece Length">
+      </div>
+    </div>
+    <h3>Enter cuts in separate lines:</h3>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <textarea class="form-control" id="cuts" rows="5" placeholder="Enter cuts as 'cut, # of this cut'"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-primary" onclick="calculateBins()">Calculate Cuts</button>
+      </div>
+    </div>
 
-  <h2>Result:</h2>
-  <div id="result"></div>
+    <div class="result-container mt-5">
+      <h2>Result:</h2>
+      <div id="result"></div>
+    </div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
     function calculateBins() {
       const pieceLengthInput = document.getElementById("pieceLength").value.trim();
@@ -41,8 +47,8 @@
         const cutValue = parseFloat(cut.trim());
         const quantityValue = quantity ? parseInt(quantity.trim(), 10) : 1;
 
-        if (isNaN(cutValue) || cutValue <= 0 || isNaN(quantityValue) || quantityValue <= 0) {
-          alert("Please enter valid positive numbers for cuts and their quantities.");
+        if (isNaN(cutValue) || cutValue <= 0 || (quantity && isNaN(quantityValue)) || quantityValue <= 0) {
+          alert("Check input to be in the right format.");
           return;
         }
 
@@ -55,13 +61,43 @@
       const bins = binPacking(cuts, maxLength);
 
       const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = "";
+    resultDiv.innerHTML = "";
 
-      for (const bin of bins) {
-        const binParagraph = document.createElement("p");
-        binParagraph.innerText = "Bin: " + bin.join(", ") + " (Sum: " + bin.reduce((sum, val) => sum + val, 0) + ")";
-        resultDiv.appendChild(binParagraph);
-      }
+    const table = document.createElement("table");
+    table.classList.add("table", "table-bordered", "mt-3");
+
+    const headerRow = table.insertRow();
+
+    const pieceHeader = document.createElement("th");
+    pieceHeader.textContent = "Piece";
+    headerRow.appendChild(pieceHeader);
+
+    const cutsHeader = document.createElement("th");
+    cutsHeader.textContent = "Cuts";
+    headerRow.appendChild(cutsHeader);
+
+    const wasteHeader = document.createElement("th");
+    wasteHeader.textContent = "Waste";
+    headerRow.appendChild(wasteHeader);
+
+    let pieceNumber = 1;
+    for (const bin of bins) {
+      const row = table.insertRow();
+
+      const pieceCell = row.insertCell();
+      pieceCell.innerHTML = pieceNumber;
+
+      const cutsCell = row.insertCell();
+      cutsCell.textContent = bin.join(", ");
+
+      const wasteCell = row.insertCell();
+      const wasteValue = maxLength - bin.reduce((sum, val) => sum + val, 0);
+      wasteCell.textContent = wasteValue.toPrecision(3);
+
+      pieceNumber++;
+    }
+
+    resultDiv.appendChild(table);
     }
 
     function binPacking(items, maxCapacity) {
