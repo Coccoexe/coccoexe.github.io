@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dynamic Table</title>
+  <title>Cutting Problem Solver</title>
   <style>
     table {
       border-collapse: collapse;
@@ -11,54 +11,83 @@
       padding: 5px;
       border: 1px solid black;
     }
-
-    textarea {
-      width: 100%;
-    }
   </style>
 </head>
 <body>
-  <table id="dynamicTable">
-    <tr>
-      <td><textarea oninput="filterNumbers(event, this)" onkeydown="checkEnter(event)"></textarea></td>
-      <td></td>
-    </tr>
-  </table>
+  <h2>Input the Piece Length and Cuts:</h2>
+  <label for="pieceLength">Piece Length:</label>
+  <input type="number" id="pieceLength" placeholder="Piece Length">
+  <br>
+  <h3>Enter cuts in separate lines:</h3>
+  <textarea id="cuts" rows="5" cols="40" placeholder="Enter cuts as 'cut, # of this cut'"></textarea>
+  <br>
+  <button onclick="calculateBins()">Calculate Cuts</button>
+
+  <h2>Result:</h2>
+  <div id="result"></div>
 
   <script>
-    function filterNumbers(event, textarea) {
-      const inputValue = textarea.value.trim();
+    function calculateBins() {
+      const pieceLengthInput = document.getElementById("pieceLength").value.trim();
+      const cutsInput = document.getElementById("cuts").value.trim();
 
-      // Remove non-numeric characters, except decimal points, from the input
-      const numericValue = inputValue.replace(/[^\d.]/g, '');
+      const pieceLength = parseFloat(pieceLengthInput);
+      const cutsLines = cutsInput.split("\n").map(line => line.trim());
 
-      // Update the textarea value with only numeric characters and the first decimal point
-      textarea.value = numericValue;
-    }
+      const cuts = [];
+      for (const line of cutsLines) {
+        const [cut, quantity] = line.split(",");
+        const cutValue = parseFloat(cut.trim());
+        const quantityValue = parseInt(quantity.trim(), 10);
 
-    function checkEnter(event) {
-      if (event.key === "Enter") {
-        event.preventDefault(); // Prevent the default behavior of "Enter" key in the textarea
+        if (isNaN(cutValue) || cutValue <= 0 || isNaN(quantityValue) || quantityValue <= 0) {
+          alert("Please enter valid positive numbers for cuts and their quantities.");
+          return;
+        }
 
-        const textarea = event.target;
-        const numericValue = textarea.value.trim();
-
-        // Check if the input contains any text
-        if (numericValue) {
-          const table = document.getElementById("dynamicTable");
-          const newRow = document.createElement("tr");
-          const firstCell = document.createElement("td");
-          const secondCell = document.createElement("td");
-
-          firstCell.innerText = numericValue;
-          newRow.appendChild(firstCell);
-          newRow.appendChild(secondCell);
-          table.appendChild(newRow);
-
-          // Clear the textarea
-          textarea.value = "";
+        for (let i = 0; i < quantityValue; i++) {
+          cuts.push(cutValue);
         }
       }
+
+      const maxLength = pieceLength;
+      const bins = binPacking(cuts, maxLength);
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      for (const bin of bins) {
+        const binParagraph = document.createElement("p");
+        binParagraph.innerText = "Bin: " + bin.join(", ") + " (Sum: " + bin.reduce((sum, val) => sum + val, 0) + ")";
+        resultDiv.appendChild(binParagraph);
+      }
+    }
+
+    function binPacking(items, maxCapacity) {
+      // Sort the items in decreasing order
+      items.sort((a, b) => b - a);
+
+      const bins = [];
+
+      for (const item of items) {
+        let added = false;
+
+        // Try to add the item to an existing bin
+        for (const bin of bins) {
+          if (bin.reduce((sum, val) => sum + val, 0) + item <= maxCapacity) {
+            bin.push(item);
+            added = true;
+            break;
+          }
+        }
+
+        // If the item didn't fit in any existing bin, create a new bin
+        if (!added) {
+          bins.push([item]);
+        }
+      }
+
+      return bins;
     }
   </script>
 </body>
