@@ -51,7 +51,8 @@ round-avatar: true
 social-network-links:
   email: "ale11022000@gmail.com"
   rss: true  # remove this line if you don't want to show an RSS link at the bottom
-  facebook: coccoexe
+  instagram: cocco11.exe
+  facebook: alessio.cocco.963
   github: coccoexe
 #  medium: yourname
 #  reddit: yourname
@@ -87,7 +88,7 @@ rss-description: This website is a virtual proof that I'm awesome
 share-links-active:
   twitter: false
   facebook: false
-  linkedin: true
+  linkedin: false
   vk: false
 
 # How to display the link to your website in the footer
