@@ -16,7 +16,7 @@
     <h3>Enter cuts in separate lines:</h3>
     <div class="row mb-3">
       <div class="col-md-6">
-        <textarea class="form-control" id="cuts" rows="5" placeholder="Enter cuts as 'cut, # of this cut'&#10;single digit will be consider as n,1&#10;e.g.&#10;3,2 -> 2 occurrency of cut with length 3&#10;   4 -> 1 occurency on cut with length 4"></textarea>
+        <textarea class="form-control" id="cuts" rows="5" placeholder="Enter cuts as 'cut, # of this cut'&#10;single digit will be consider as n,1&#10;e.g.&#10;3,2 -> 2 occurrences of cut with length 3&#10;4 -> 1 occurrence of cut with length 4"></textarea>
       </div>
     </div>
     <div class="row">
@@ -41,6 +41,8 @@
       const cutsLines = cutsInput.split("\n").map(line => line.trim());
 
       const cuts = [];
+      const tooLargeCuts = [];
+
       for (const line of cutsLines) {
         const [cut, quantity] = line.split(",");
 
@@ -53,7 +55,11 @@
         }
 
         for (let i = 0; i < quantityValue; i++) {
-          cuts.push(cutValue);
+          if (cutValue > pieceLength) {
+            tooLargeCuts.push(cutValue);
+          } else {
+            cuts.push(cutValue);
+          }
         }
       }
 
@@ -61,43 +67,49 @@
       const bins = binPacking(cuts, maxLength);
 
       const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = "";
+      resultDiv.innerHTML = "";
 
-    const table = document.createElement("table");
-    table.classList.add("table", "table-bordered", "mt-3");
+      const table = document.createElement("table");
+      table.classList.add("table", "table-bordered", "mt-3");
 
-    const headerRow = table.insertRow();
+      const headerRow = table.insertRow();
 
-    const pieceHeader = document.createElement("th");
-    pieceHeader.textContent = "Piece";
-    headerRow.appendChild(pieceHeader);
+      const pieceHeader = document.createElement("th");
+      pieceHeader.textContent = "Piece";
+      headerRow.appendChild(pieceHeader);
 
-    const cutsHeader = document.createElement("th");
-    cutsHeader.textContent = "Cuts";
-    headerRow.appendChild(cutsHeader);
+      const cutsHeader = document.createElement("th");
+      cutsHeader.textContent = "Cuts";
+      headerRow.appendChild(cutsHeader);
 
-    const wasteHeader = document.createElement("th");
-    wasteHeader.textContent = "Waste";
-    headerRow.appendChild(wasteHeader);
+      const wasteHeader = document.createElement("th");
+      wasteHeader.textContent = "Waste";
+      headerRow.appendChild(wasteHeader);
 
-    let pieceNumber = 1;
-    for (const bin of bins) {
-      const row = table.insertRow();
+      let pieceNumber = 1;
+      for (const bin of bins) {
+        const row = table.insertRow();
 
-      const pieceCell = row.insertCell();
-      pieceCell.innerHTML = pieceNumber;
+        const pieceCell = row.insertCell();
+        pieceCell.innerHTML = pieceNumber;
 
-      const cutsCell = row.insertCell();
-      cutsCell.textContent = bin.join(", ");
+        const cutsCell = row.insertCell();
+        cutsCell.textContent = bin.join(", ");
 
-      const wasteCell = row.insertCell();
-      const wasteValue = maxLength - bin.reduce((sum, val) => sum + val, 0);
-      wasteCell.textContent = wasteValue.toPrecision(3);
+        const wasteCell = row.insertCell();
+        const wasteValue = maxLength - bin.reduce((sum, val) => sum + val, 0);
+        wasteCell.textContent = wasteValue.toPrecision(3);
 
-      pieceNumber++;
-    }
+        pieceNumber++;
+      }
 
-    resultDiv.appendChild(table);
+      resultDiv.appendChild(table);
+
+      if (tooLargeCuts.length > 0) {
+        const tooLargeCutsParagraph = document.createElement("p");
+        tooLargeCutsParagraph.innerHTML = "Values larger than the piece length: " + tooLargeCuts.join(", ");
+        resultDiv.appendChild(tooLargeCutsParagraph);
+      }
     }
 
     function binPacking(items, maxCapacity) {
