@@ -22,8 +22,8 @@ author: Alessio Cocco
 navbar-links:
   About Me: "aboutme"
   Resources:
-    - Beautiful Jekyll: "https://beautifuljekyll.com"
-    - Learn markdown: "https://www.markdowntutorial.com/"
+    - Progetto 1: "https://coccoexe.github.io/Progetto1/"
+    - Progetto 2: "https://coccoexe.github.io/Progetto2/"
   Author's home: "https://coccoexe.github.io"
 
 ################
