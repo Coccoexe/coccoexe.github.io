@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 5px;
+      border: 1px solid black;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <table id="dynamicTable">
+    <tr>
+      <td><textarea oninput="filterNumbers(event, this)" onkeydown="checkEnter(event)"></textarea></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <script>
+    function filterNumbers(event, textarea) {
+      const inputValue = textarea.value.trim();
+
+      // Remove non-numeric characters, except decimal points, from the input
+      const numericValue = inputValue.replace(/[^\d.]/g, '');
+
+      // Update the textarea value with only numeric characters and the first decimal point
+      textarea.value = numericValue;
+    }
+
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent the default behavior of "Enter" key in the textarea
+
+        const textarea = event.target;
+        const numericValue = textarea.value.trim();
+
+        // Check if the input contains any text
+        if (numericValue) {
+          const table = document.getElementById("dynamicTable");
+          const newRow = document.createElement("tr");
+          const firstCell = document.createElement("td");
+          const secondCell = document.createElement("td");
+
+          firstCell.innerText = numericValue;
+          newRow.appendChild(firstCell);
+          newRow.appendChild(secondCell);
+          table.appendChild(newRow);
+
+          // Clear the textarea
+          textarea.value = "";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
