@@ -37,8 +37,9 @@
       const cuts = [];
       for (const line of cutsLines) {
         const [cut, quantity] = line.split(",");
+
         const cutValue = parseFloat(cut.trim());
-        const quantityValue = parseInt(quantity.trim(), 10);
+        const quantityValue = quantity ? parseInt(quantity.trim(), 10) : 1;
 
         if (isNaN(cutValue) || cutValue <= 0 || isNaN(quantityValue) || quantityValue <= 0) {
           alert("Please enter valid positive numbers for cuts and their quantities.");
