@@ -21,9 +21,8 @@ author: Alessio Cocco
 
 navbar-links:
   About Me: "aboutme"
-  Resources:
-    - Progetto 1: "https://coccoexe.github.io/Progetto1/"
-    - Progetto 2: "https://coccoexe.github.io/Progetto2/"
+  My Projects:
+    - Optimized Laser Cutting: "https://coccoexe.github.io/Progetto1/"
   Author's home: "https://coccoexe.github.io"
 
 ################
