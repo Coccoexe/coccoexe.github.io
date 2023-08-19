@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equation Guessing Game</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1>Equation Guessing Game</h1>
+  <div class="radio-group">
+    <input type="radio" id="Easy" name="difficulty" value="2" checked>
+    <label for="Easy">Easy</label>
+    <input type="radio" id="Medium" name="difficulty" value="3">
+    <label for="Medium">Medium</label>
+    <input type="radio" id="Hard" name="difficulty" value="4">
+    <label for="Hard">Hard</label>
+    <input type="radio" id="Very Hard" name="difficulty" value="5">
+    <label for="Very Hard">Very Hard</label>
+  </div>
+  </br>
+  
+  <table id="equation-table">
+    <!-- Rows will be added here dynamically -->
+  </table>
+</br>
+  <button id="guess-button">Guess</button>
+</br>
+</br>
+  <div id="digits-container">
+    <!-- Digits to drag and drop -->
+    <span class="digit">1</span>
+    <span class="digit">2</span>
+    <span class="digit">3</span>
+  </br>
+    <span class="digit">4</span>
+    <span class="digit">5</span>
+    <span class="digit">6</span>
+  </br>
+    <span class="digit">7</span>
+    <span class="digit">8</span>
+    <span class="digit">9</span>
+  </br>
+    <span class="digit">0</span>
+  </br>
+    <span class="digit">+</span>
+    <span class="digit">-</span>
+    <span class="digit">*</span>
+    <span class="digit">/</span>
+  </br>
+    <span class="digit">(</span>
+    <span class="digit">)</span>
+    <span class="digit">=</span>
+    <!-- Add more digits here -->
+  </div>
+  <script src="./script.js"></script>
+</body>
+</html>

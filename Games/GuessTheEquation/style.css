@@ -1,0 +1,58 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background: -webkit-linear-gradient(left, #ffffff, #0398f4);
+  }
+  
+  table {
+    margin: auto;
+    border-collapse: collapse;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  #equation {
+    font-size: 24px;
+    margin: 20px;
+  }
+  
+  #input {
+    font-size: 18px;
+    margin: 10px;
+  }
+  
+  #feedback {
+    font-size: 18px;
+    margin: 10px;
+  }
+
+  #input-row input[type="text"] {
+    width: 1em;
+    text-align: center;
+    padding: 0;
+  }
+  
+  /* Add this style to make digits draggable */
+.digit {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #f1f1f1;
+  cursor: move;
+}
+
+/* Add styles for highlighting valid drop target */
+td input[type="text"]:empty {
+  background-color: #e0f0e0;
+}
