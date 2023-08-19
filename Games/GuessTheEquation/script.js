@@ -82,6 +82,7 @@ function createTable() {
 }
 
 function checkAnswer(ans) {
+
   for (var i = 0; i < ans.length; i++) {
     // if the value is the same color it green
     if (ans[i] === equation[i]) {
@@ -105,6 +106,19 @@ function dragStart(e) {
   e.dataTransfer.setData("text/plain", e.target.textContent);
 }
 
+function digitClick(e) {
+  var clickedDigit = e.target;
+  var inputElements = document.querySelectorAll("#input-row > td > input[type=text]");
+  inputElements = Array.from(inputElements).slice(-equation.length);
+  // Find the first empty input
+  var emptyInput = inputElements.find(function(inputElement) {
+    return inputElement.value === "";
+  });
+  if (emptyInput) {
+    emptyInput.value = clickedDigit.textContent;
+  }
+}
+
 function allowDrop(e) {
   e.preventDefault();
 }
@@ -120,6 +134,7 @@ function drop(e) {
 digits.forEach(function(digit) {
   digit.setAttribute("draggable", true);
   digit.addEventListener("dragstart", dragStart);
+  digit.addEventListener("click", digitClick);
 });
 
 // Allow cells to accept drops
@@ -138,6 +153,16 @@ function handleDifficultyChange(event) {
 selectedDifficulty.forEach(group => {
   group.addEventListener("change", handleDifficultyChange);
 });
+
+// CLEAR
+function handleClear() {
+  var inputElements = document.querySelectorAll("#input-row > td > input[type=text]");
+  inputElements = Array.from(inputElements).slice(-equation.length);
+  inputElements.forEach(function(inputElement) {
+    inputElement.value = "";
+  });
+}
+document.getElementById("clear-button").addEventListener("click", handleClear);
 
 // GUESS
 function handleGuess() {
@@ -165,6 +190,21 @@ function handleGuess() {
   inputElements.forEach(function(inputElement) {
     inputElement.disabled = true;
   });
+
+  if (ans === equation) {
+    //lock the button
+    guessButton.disabled = true;
+
+    var win = document.createElement("h1");
+    win.textContent = "You win!";
+    //rainbow text
+    win.style.backgroundImage = "linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red)";
+    win.style.webkitBackgroundClip = "text";
+    win.style.webkitTextFillColor = "transparent";
+    win.style.fontSize = "100px";
+    document.body.appendChild(win);
+    return;
+  }
 
   //create a new row
   createTable();
