@@ -1,0 +1,22 @@
+/* Add your styling here */
+
+
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background: -webkit-linear-gradient(left, #ffffff, #0398f4);
+  }
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    vertical-align: middle;
+    background-color: #ffffff;
+  }
+  
