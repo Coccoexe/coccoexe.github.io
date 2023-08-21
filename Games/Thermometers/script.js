@@ -580,8 +580,8 @@ function beautification() {
     var cells = document.getElementsByClassName('cell');
     var cellHeight = cells[0].offsetHeight;
     var cellWidth = cells[0].offsetWidth;
-    var puzzleHeight = (numRows + 1) * cellHeight + 2;
-    var puzzleWidth = (numCols + 1) * cellWidth + 2;
+    var puzzleHeight = (numRows + 1) * cellHeight + numRows*2;
+    var puzzleWidth = (numCols + 1) * cellWidth + numCols*2;
 
     // adjust the puzzle container
     puzzleContainer.style.width = puzzleWidth + 'px';
