@@ -597,10 +597,11 @@ function clearPuzzle() {
 
 function start() {
     grid = generateThermometers();
+    placementCorrection();
     answer = Array(numRows).fill().map(() => Array(numCols).fill(0));
     randomFill();
     displayThermometers(grid, answer);
-    placementCorrection();
+    
 
     // Beautification
     beautification();
