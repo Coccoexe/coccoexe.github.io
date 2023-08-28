@@ -155,7 +155,7 @@ function placementCorrection() {
     }
 
     clearPuzzle();
-    displayThermometers(grid, answer);
+    //displayThermometers(grid, answer);
 }
 
 function mergeAdjacentCouples(adjacentCouples) {
@@ -598,9 +598,10 @@ function clearPuzzle() {
 function start() {
     grid = generateThermometers();
     answer = Array(numRows).fill().map(() => Array(numCols).fill(0));
+    placementCorrection();
     randomFill();
     displayThermometers(grid, answer);
-    placementCorrection();
+    
 
     // Beautification
     beautification();
